@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes without product</title>
+</head>
+<body>
+  <table>
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Recipe</th>
+        </tr>
+      </thead>
+      {% for idx, recipe in recipes_without_product.items %}
+      <tbody>
+        <tr>
+            <td>{{ idx }}</td>
+            <td>{{ recipe }}</td>
+        </tr>
+      </tbody>
+      {% endfor %}
+  </table>
+</body>
+</html>
