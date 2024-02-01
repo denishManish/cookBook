@@ -13,32 +13,18 @@ def add_product_to_recipe(request):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     product = get_object_or_404(Product, id=product_id)
 
-    recipe_product, created = RecipeProduct.objects.get_or_create(
-        recipe=recipe,
-        product=product,
-        defaults={"weight": weight},
-    )
+    recipe.add_product(product=product, weight=weight)
 
-    if not created:
-        recipe_product.weight = weight
-        recipe_product.save()
-
-    return HttpResponse(f"{product} of {weight}g in {recipe}")
+    return HttpResponse(status=200)
 
 
 def cook_recipe(request):
     recipe_id = request.GET.get("recipe_id")
     recipe = get_object_or_404(Recipe, id=recipe_id)
-    products_used = f"{recipe} consumed "
 
-    for product in recipe.products.all():
-        product.usage_count += 1
-        product.save()
+    recipe.cook()
 
-        products_used += f"{product}({product.usage_count} times), "
-
-    products_used = products_used.removesuffix(', ')
-    return HttpResponse(products_used)
+    return HttpResponse(status=200)
 
 
 def show_recipes_without_product(request):

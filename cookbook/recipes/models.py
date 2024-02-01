@@ -20,6 +20,22 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
+    def add_product(self, product, weight):
+        recipe_product, created = RecipeProduct.objects.get_or_create(
+            recipe=self,
+            product=product,
+            defaults={"weight": weight},
+        )
+
+        if not created:
+            recipe_product.weight = weight
+            recipe_product.save()
+
+    def cook(self):
+        for product in self.products.all():
+            product.usage_count += 1
+            product.save()
+
 
 class RecipeProduct(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
