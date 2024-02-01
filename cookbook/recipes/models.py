@@ -1,6 +1,14 @@
 from django.db import models
 
 
+class RecipeManager(models.Manager):
+    def recipes_with_product(self, product):
+        return self.get_queryset().filter(products=product, recipeproduct__weight__gte=10)
+
+    def recipes_without_product(self, product):
+        return self.get_queryset().difference(self.recipes_with_product(product))
+
+
 class Product(models.Model):
     name = models.CharField(max_length=50)
     usage_count = models.IntegerField(default=0)
@@ -16,6 +24,7 @@ class Recipe(models.Model):
         through="RecipeProduct",
         through_fields=("recipe", "product"),
     )
+    objects = RecipeManager()
 
     def __str__(self):
         return self.name
