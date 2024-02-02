@@ -41,15 +41,18 @@ class Recipe(models.Model):
             recipe_product.save()
 
     def cook(self):
-        for product in self.products.all():
-            product.usage_count += 1
-            product.save()
+        self.products.all().update(usage_count=models.F('usage_count') + 1)
 
 
 class RecipeProduct(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     weight = models.IntegerField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['recipe', 'product'], name="unique_product_for_recipe"),
+        ]
 
     def __str__(self):
         return f"{self.product} in {self.recipe}"

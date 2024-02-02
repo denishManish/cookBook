@@ -12,11 +12,11 @@
             <th>Recipe</th>
         </tr>
       </thead>
-      {% for idx, recipe in recipes_without_product.items %}
+      {% for recipe in recipes_without_product %}
       <tbody>
         <tr>
-            <td>{{ idx }}</td>
-            <td>{{ recipe }}</td>
+            <td>{{ recipe.id }}</td>
+            <td>{{ recipe.name }}</td>
         </tr>
       </tbody>
       {% endfor %}

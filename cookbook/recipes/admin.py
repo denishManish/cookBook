@@ -4,7 +4,7 @@ from .models import Product, Recipe, RecipeProduct
 
 admin.site.register(Product)
 # admin.site.register(Recipe)
-admin.site.register(RecipeProduct)
+# admin.site.register(RecipeProduct)
 
 
 class RecipeProductInline(admin.TabularInline):
